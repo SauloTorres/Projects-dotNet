@@ -69,26 +69,47 @@ namespace EnvioEmail.Controllers
             return View(todo);
         }
 
-        //[HttpGet]
-        //public ActionResult Swap(int id)
-        //{
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
 
-        //    using (var client = new HttpClient())
-        //    {
-        //        client.BaseAddress = new Uri("https://localhost:44349/v1/todos/"+ id);
-        //        //HTTP POST
-        //        var putTask = result.Content.ReadAsAsync<IList<TodoViewModel>>();
-        //        putTask.Wait();
-        //        var result = putTask.Result;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:44349/v1");
+                //HTTP POST
+                var deleteTask = client.DeleteAsync("v1/todos/"+id);
+                deleteTask.Wait();
+                var result = deleteTask.Result;
 
-        //        if (result.IsSuccessStatusCode)
-        //        {
-        //            return RedirectToAction("Index");
-        //        }
-        //    }
-        //    ModelState.AddModelError(string.Empty, "Erro no Servidor. Contacte o Administrador.");
-        //    return View("index");
-        //}
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            ModelState.AddModelError(string.Empty, "Erro no Servidor. Contacte o Administrador.");
+            return View("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Swap(int id)
+        {
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:44349/v1/");
+
+                //HTTP GET
+                var responseTask = client.GetAsync("todos/swap/"+id);
+                responseTask.Wait();
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            ModelState.AddModelError(string.Empty, "Erro no Servidor. Contacte o Administrador.");
+            return View("index");
+        }
     }
 }
 

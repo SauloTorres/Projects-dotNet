@@ -25,15 +25,14 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Done)
+                @Html.CheckBoxFor(modelItem => item.Done)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                @Html.ActionLink("Swap", "Swap", new { todo = item })
+                @Html.ActionLink("Swap", "Swap", new { id = item.Id })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Deseja realmente deletar este contato ?');" })
             </td>
         </tr>
     }
